@@ -1,6 +1,7 @@
 package com.ericjunq.exceptions.handler;
 
 import com.ericjunq.exceptions.ExceptionResponse;
+import com.ericjunq.exceptions.ResourceNotFoundException;
 import com.ericjunq.exceptions.UnsuportedMathOperationException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,16 @@ public class CustomizedEntityResponseHandler extends ResponseEntityExceptionHand
         );
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(ResourceNotFoundException ex, WebRequest request){
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

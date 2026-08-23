@@ -3,6 +3,7 @@ package com.ericjunq.controllers;
 import com.ericjunq.model.Person;
 import com.ericjunq.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping("/{id}")
-    public Person findById(@PathVariable("id") String id){
+    public Person findById(@PathVariable("id") Long id){
         return personService.findById(id);
     }
 
@@ -36,7 +37,8 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePerson(@PathVariable("id") String id){
-        personService.deletePerson(id);
+    public ResponseEntity<?> deletePerson(@PathVariable("id") Long id){
+        personService.deletePersonById(id);
+        return ResponseEntity.noContent().build();
     }
 }

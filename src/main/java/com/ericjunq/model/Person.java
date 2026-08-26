@@ -3,6 +3,7 @@ package com.ericjunq.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -25,13 +26,15 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 6)
     private String gender;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    @Column
+    private Date birthDay;
+
+    public Date getBirthDay() {
+        return birthDay;
     }
 
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
@@ -44,6 +47,14 @@ public class Person implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getGender() {
@@ -67,17 +78,14 @@ public class Person implements Serializable {
     }
 
 
-    public Person() {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Person person)) return false;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(birthDay, person.birthDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
+        return Objects.hash(id, firstName, lastName, address, gender, birthDay);
     }
 }

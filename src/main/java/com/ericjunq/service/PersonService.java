@@ -1,53 +1,64 @@
 package com.ericjunq.service;
 
+import com.ericjunq.dtos.PersonDTO;
 import com.ericjunq.exceptions.ResourceNotFoundException;
+import com.ericjunq.mappers.PersonMapper;
 import com.ericjunq.model.Person;
 import com.ericjunq.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
+
 
 @Service
 public class PersonService {
 
-    private final AtomicLong counter = new AtomicLong();
+    //private final AtomicLong counter = new AtomicLong(); -> Criando um objeto de autoincrement
 
     @Autowired
     private PersonRepository personRepository;
 
-    private final Logger logger = Logger.getLogger(PersonService.class.getName());
+    // Correção -> O logger deve ser do SLF4J
+    private final Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 
-    public Person findById(Long id){
+    @Autowired
+    private PersonMapper personMapper;
+
+    public PersonDTO findById(Long id){
         logger.info("Finding one Person!");
+        Person person = personRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Person not found for this ID"));
 
-        return personRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Person not found for this ID"));
+        return  personMapper.toDTO(person);
     }
 
-    public List<Person> findAll(){
+    public List<PersonDTO> findAll(){
         logger.info("Finding all people!");
-        return personRepository.findAll();
+        return personMapper.toDtoList(personRepository.findAll());
     }
 
-    public Person createPerson(Person person){
+    public PersonDTO createPerson(PersonDTO personDTO){
         logger.info("Creating a Person!");
 
-        return personRepository.save(person);
+        Person person = personMapper.toEntity(personDTO);
+        personRepository.save(person);
+
+        return personMapper.toDTO(person);
     }
 
-    public Person updatePerson(Person person){
+    public PersonDTO updatePerson(PersonDTO personDTO){
         logger.info("Updating a Person!");
-        Person entity = personRepository.findById(person.getId())
+
+        Person entity = personRepository.findById(personDTO.id())
                 .orElseThrow(()-> new ResourceNotFoundException("Person not found for this ID"));
 
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
-        entity.setAddress(person.getAddress());
-        entity.setGender(person.getGender());
+        personMapper.updatePersonFromDTO(personDTO, entity);
 
-        return personRepository.save(entity);
+        personRepository.save(entity);
+
+        return personMapper.toDTO(entity);
     }
 
     public void deletePersonById(Long id){
@@ -55,22 +66,23 @@ public class PersonService {
         Person entity = personRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Person not found for this ID"));
 
+
         personRepository.delete(entity);
     }
 
     // Exemplo de mock
     //      Mock é um objeto falso para imitar o comportamento de um objeto real, sem fornecer acesso a dados reais ou conexão real com o banco
     //      Utilizado para testes e para estruturação de grandes projetos
-    private Person mockPerson(int i) {
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("FirstName" + i);
-        person.setLastName("LastName" + i);
-        person.setAddress("SomeAdress in Brazil" + i);
-        person.setGender("Male");
-
-        return person;
-    }
+//    private Person mockPerson(int i) {
+//        Person person = new Person();
+//        person.setId(counter.incrementAndGet());
+//        person.setFirstName("FirstName" + i);
+//        person.setLastName("LastName" + i);
+//        person.setAddress("SomeAdress in Brazil" + i);
+//        person.setGender("Male");
+//
+//        return person;
+//    }
 
 
 }

@@ -1,7 +1,7 @@
 package com.ericjunq.controllers;
 
-import com.ericjunq.model.Person;
 import com.ericjunq.service.PersonService;
+import com.ericjunq.dtos.PersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,31 +9,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/v1/person")
 public class PersonController {
 
     @Autowired
     private PersonService personService;
 
     @GetMapping("/{id}")
-    public Person findById(@PathVariable("id") Long id){
+    public PersonDTO findById(@PathVariable("id") Long id){
         return personService.findById(id);
     }
 
 
-    @GetMapping()
-    public List<Person> findAll(){
+    @GetMapping
+    public List<PersonDTO> findAll(){
         return personService.findAll();
     }
 
     @PostMapping
-    public Person createPerson(@RequestBody Person person){
-        return personService.createPerson(person);
+    public PersonDTO createPerson(@RequestBody PersonDTO personDTO){
+        return personService.createPerson(personDTO);
     }
 
     @PutMapping
-    public Person updatePerson(@RequestBody Person person){
-        return personService.updatePerson(person);
+    public PersonDTO updatePerson(@RequestBody PersonDTO personDTO){
+        return personService.updatePerson(personDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -3,13 +3,20 @@ spring:
     name: udemy-curso-erudio
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/curso_erudio_database
+    url: jdbc:postgresql://localhost:5432/continuacao_curso_erudio_springboot
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
     show-sql: true
+
+logging:
+  #level:
+    ## Aqui eu posso passar o nível de detalhamento dos logs de todos os arquivos do pacote .com.ericunq
+    #com.ericjunq: INFO
+  root: INFO # Aqui eu estou dizendo que todo o sistema vai usar por padrão a configuração INFO
+             # Lembrando que eu posso separar uma pasta como feito acima do padrão setado pelo root

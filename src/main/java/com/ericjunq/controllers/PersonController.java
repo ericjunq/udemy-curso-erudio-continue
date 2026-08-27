@@ -25,7 +25,7 @@ public class PersonController {
     @Autowired
     private PersonResourceAssembler assembler;
 
-    @GetMapping(name = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<EntityModel<PersonDTO>> findById(@PathVariable("id") Long id){
         PersonDTO personDTO = personService.findById(id);
 

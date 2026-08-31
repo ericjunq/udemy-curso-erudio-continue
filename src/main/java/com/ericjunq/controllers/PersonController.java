@@ -65,7 +65,7 @@ public class PersonController {
 
         PersonDTO response = personService.updatePerson(personDTO);
 
-        EntityModel<PersonDTO> model = assembler.toModel(personDTO);
+        EntityModel<PersonDTO> model = assembler.toModel(response);
 
         return ResponseEntity.ok(model);
     }

@@ -1,6 +1,7 @@
 package com.ericjunq.service;
 
 import com.ericjunq.dtos.PersonDTO;
+import com.ericjunq.exceptions.RequiredObjectIsNullException;
 import com.ericjunq.exceptions.ResourceNotFoundException;
 import com.ericjunq.mappers.PersonMapper;
 import com.ericjunq.model.Person;
@@ -40,6 +41,8 @@ public class PersonService {
     }
 
     public PersonDTO createPerson(PersonDTO personDTO){
+        if (personDTO == null) throw new RequiredObjectIsNullException();
+
         logger.info("Creating a Person!");
 
         Person person = personMapper.toEntity(personDTO);
@@ -49,6 +52,8 @@ public class PersonService {
     }
 
     public PersonDTO updatePerson(PersonDTO personDTO){
+        if (personDTO == null) throw new RequiredObjectIsNullException();
+
         logger.info("Updating a Person!");
 
         Person entity = personRepository.findById(personDTO.id())

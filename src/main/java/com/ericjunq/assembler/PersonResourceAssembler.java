@@ -14,7 +14,8 @@ public class PersonResourceAssembler implements RepresentationModelAssembler<Per
         return EntityModel.of(personDTO,
                 linkTo(methodOn(PersonController.class).findById(personDTO.id())).withSelfRel(),
                 linkTo(methodOn(PersonController.class).findAll()).withRel("people"),
-                linkTo(methodOn(PersonController.class).updatePerson(personDTO)).withRel("update")
+                linkTo(methodOn(PersonController.class).updatePerson(personDTO)).withRel("update"),
+                linkTo(methodOn(PersonController.class).deletePerson(personDTO.id())).withRel("delete")
         );
     }
 }

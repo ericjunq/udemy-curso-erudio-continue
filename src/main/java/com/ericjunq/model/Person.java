@@ -26,12 +26,12 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 6)
     private String gender;
 
-    @Column
-    private Date birthDay;
+//    @Column
+//    private Date birthDay;
 
-    public Date getBirthDay() {
-        return birthDay;
-    }
+//    public Date getBirthDay() {
+//        return birthDay;
+//    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -49,9 +49,9 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
+//    public void setBirthDay(Date birthDay) {
+//        this.birthDay = birthDay;
+//    }
 
     public void setId(Long id) {
         this.id = id;
@@ -81,11 +81,11 @@ public class Person implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Person person)) return false;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(birthDay, person.birthDay);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender); // && Objects.equals(birthDay, person.birthDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender, birthDay);
+        return Objects.hash(id, firstName, lastName, address, gender /* ,birthDay*/);
     }
 }

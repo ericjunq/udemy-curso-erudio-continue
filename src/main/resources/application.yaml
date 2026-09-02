@@ -20,3 +20,8 @@ logging:
     #com.ericjunq: INFO
   root: INFO # Aqui eu estou dizendo que todo o sistema vai usar por padrão a configuração INFO
              # Lembrando que eu posso separar uma pasta como feito acima do padrão setado pelo root
+
+spring-doc:
+  paths-to-match: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true

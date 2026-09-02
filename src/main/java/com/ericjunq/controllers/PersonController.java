@@ -1,9 +1,12 @@
 package com.ericjunq.controllers;
 
 import com.ericjunq.assembler.PersonResourceAssembler;
+import com.ericjunq.config.SwaggerApiConfiguration;
 import com.ericjunq.service.PersonService;
 import com.ericjunq.dtos.PersonDTO;
-import org.apache.coyote.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -11,12 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/v1/person")
+@RequestMapping("/api/v1/person")
+@Tag(name = "People", description = "Endpoints for Managing People")
 public class PersonController {
 
     @Autowired
@@ -26,6 +28,9 @@ public class PersonController {
     private PersonResourceAssembler assembler;
 
     @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @SwaggerApiConfiguration(summary = "Find One Person",
+            description = "Finds a People By ID"
+    )
     public ResponseEntity<EntityModel<PersonDTO>> findById(@PathVariable("id") Long id){
         PersonDTO personDTO = personService.findById(id);
 
@@ -33,8 +38,8 @@ public class PersonController {
         return ResponseEntity.ok(model);
     }
 
-
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @SwaggerApiConfiguration
     public ResponseEntity<List<EntityModel<PersonDTO>>> findAll(){
         List<PersonDTO> list = personService.findAll();
 
@@ -49,6 +54,10 @@ public class PersonController {
             consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
+    @SwaggerApiConfiguration(
+            summary = "Create a Person",
+            description = "Creates a New Person"
+    )
     public ResponseEntity<EntityModel<PersonDTO>> createPerson(@RequestBody PersonDTO personDTO){
 
         PersonDTO response = personService.createPerson(personDTO);
@@ -61,6 +70,10 @@ public class PersonController {
     @PutMapping(
             consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @SwaggerApiConfiguration(
+            summary = "Update a Person",
+            description = "Updates a Person"
+    )
     public ResponseEntity<EntityModel<PersonDTO>> updatePerson(@RequestBody PersonDTO personDTO){
 
         PersonDTO response = personService.updatePerson(personDTO);
@@ -71,6 +84,10 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
+    @SwaggerApiConfiguration(
+            summary = "Delete a Person",
+            description = "Delete a Person By Id"
+    )
     public ResponseEntity<?> deletePerson(@PathVariable("id") Long id){
         personService.deletePersonById(id);
         return ResponseEntity.noContent().build();
